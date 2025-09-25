@@ -33,7 +33,7 @@ const Card = ({ allData }) => {
 
                                 {e?.super_powers?.map((p) => (
 
-                                    <div className="flex  text-sm  p-1 px-2   shadow-inner  text-gray-200 rounded-2xl bg-white font-mono ">
+                                    <div key={p} className="flex  text-sm  p-1 px-2   shadow-inner  text-gray-200 rounded-2xl bg-white font-mono ">
                                         {p}
                                     </div>
 

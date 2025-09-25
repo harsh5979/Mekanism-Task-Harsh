@@ -9,8 +9,9 @@ import Card from './components/card'
 
 function App() {
   const [serach, setSearch] = useState("")
-  const [pages, setPages] = useState(4)
-  const [previos, setPrevios] = useState(0)
+  const itemPerpage = 4;
+  const [Currentpage, setCurrentPage] = useState(1)
+  const [startIndex, setStartIndex] = useState(0)
 
 
 
@@ -36,55 +37,15 @@ function App() {
     )
 
   }
-  const allData = serach ? data?.filter((e) => (e.name === serach)).slice(0, 4) : data.slice(previos, pages)
+
+  const allData = serach ? data?.filter((e) => (e.name.toLowerCase().includes(serach.toLowerCase()))).slice(0, itemPerpage) : data.slice(startIndex, Currentpage * itemPerpage)
 
 
   const handlePage = (e) => {
-
-    // setPrevios(pages)
-    // setPages(4 * e)
-
-    switch (e) {
-      case 1:
-        setPrevios(0)
-        setPages(4)
-
-        break;
-      case 2:
-        setPrevios(4)
-        setPages(8)
-
-        break;
-      case 3:
-        setPrevios(8)
-        setPages(12)
-
-        break;
-      case 4:
-        setPrevios(12)
-        setPages(16)
-
-        break;
-      case 5:
-        setPrevios(16)
-        setPages(20)
-
-        break;
-      case 6:
-        setPrevios(20)
-        setPages(24)
-
-        break;
-
-      default:
-        break;
-    }
-    // if (e === 1) {
-    //   setPrevios(0)
-    //   setPages(4)
-
-    // }
+    setStartIndex((e - 1) * itemPerpage)
+    setCurrentPage(e)
   }
+  const totalPages = Math.ceil(data.length / itemPerpage)
 
 
   return (
@@ -111,12 +72,12 @@ function App() {
       <div className=" w-full text-2xl text-white items-center  flex justify-center mx-auto m-auto ">
 
 
-        {[1, 2, 3, 4, 5, 6].map((e, i) =>
+        {Array.from({ length: totalPages })?.map((_, i) =>
         (
           <div className="flex  gap-3" key={i}>
 
             <button
-              onClick={() => handlePage(e)} className=" flex mx-2 border px-3 mb-8 rounded-xl py-1 bg-blue-800"  >{e}</button>
+              onClick={() => handlePage(i + 1)} className={` flex mx-2 border px-3 mb-8 rounded-xl py-1  ${Currentpage=== i+1 ? 'bg-blue-400':'bg-blue-800'}`} disabled={Currentpage === i+1}  >{i + 1}</button>
           </div>
         ))}
 
